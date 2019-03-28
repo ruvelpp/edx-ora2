@@ -350,6 +350,7 @@ class StaffAreaMixin(object):
 
         workflow = self.get_workflow_info(submission_uuid=submission_uuid)
         grade_exists = workflow.get('status') == "done"
+        grade_utils = self.runtime._services.get('grade_utils')
 
         if "peer-assessment" in assessment_steps:
             peer_assessments = peer_api.get_assessments(submission_uuid)
@@ -389,6 +390,7 @@ class StaffAreaMixin(object):
             'score': workflow.get('score'),
             'workflow_status': workflow.get('status'),
             'workflow_cancellation': workflow_cancellation,
+            'are_grades_frozen': grade_utils.are_grades_frozen()
         })
 
         if peer_assessments or self_assessment or staff_assessment:

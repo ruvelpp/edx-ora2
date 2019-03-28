@@ -7,7 +7,7 @@ from functools import wraps
 import os
 import time
 import unittest
-
+from mock import MagicMock, patch
 from bok_choy.promise import BrokenPromise, EmptyPromise
 from bok_choy.web_app_test import WebAppTest
 import ddt
@@ -603,6 +603,25 @@ class StaffAreaTest(OpenAssessmentTest):
         # Click on staff tools and search for user
         self.staff_area_page.show_learner('no-submission-learner')
         self.staff_area_page.verify_learner_report_text('A response was not found for this learner.')
+    
+    @retry()
+    @attr('acceptance')
+    @ddt.data(True, False)
+    def test_staff_override_availability(self, grade_are_frozen):
+        """
+        Test that staff override option is only available when grades are not frozen
+        """
+        username = self.do_self_assessment()
+        self.staff_area_page.visit()
+        self.staff_area_page.show_learner(username)
+
+        with patch('lms.djangoapps.grades.util_services.are_grades_frozen') as mock_freeze:
+            mock_freeze.return_value = grade_are_frozen
+            staff_override_available = not grade_are_frozen
+            self.assertEquals(
+                self.staff_area_page.assert_staff_override_available(),
+                staff_override_available
+            )
 
     @retry()
     @attr('acceptance')
