@@ -256,7 +256,7 @@ class StaffAreaMixin(object):
         Returns:
             A context dict for rendering a student submission and associated rubric (for staff grading).
         """
-        user_preferences = get_user_preferences(self.runtime.service(self, 'user')) # localize for staff user
+        user_preferences = get_user_preferences(self.runtime.service(self, 'user'))  # localize for staff user
 
         context = {
             'submission': create_submission_dict(submission, self.prompts) if submission else None,

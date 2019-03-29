@@ -641,6 +641,19 @@ class StaffAreaPage(OpenAssessmentPage, AssessmentMixin):
     def is_browser_on_page(self):
         return self.q(css=".openassessment__staff-area").is_present()
 
+    def is_element_visible(self, selector):
+        """
+        Checks if element with given selector is present
+        """
+        element = self.q(css=self._bounded_selector(selector))
+        return element.is_present()
+
+    def assert_staff_override_available(self):
+        """
+        Checks if staff override option is available
+        """
+        return self.is_element_visible("staff-info__staff-override")
+
     @property
     def selected_button_names(self):
         """
@@ -663,19 +676,6 @@ class StaffAreaPage(OpenAssessmentPage, AssessmentMixin):
         """
         button = self.q(css=self._bounded_selector(".button-{button_name}".format(button_name=button_name)))
         return button.is_present()
-    
-    def is_element_visible(self, selector):
-        """
-        Checks if element with given selector is present
-        """
-        element = self.q(css=self._bounded_selector(selector)
-        return element.is_present()
-
-    def assert_staff_override_available(self):
-        """
-        Checks if staff override option is available
-        """
-        return is_element_visible("staff-info__staff-override")
 
     def click_staff_toolbar_button(self, button_name):
         """

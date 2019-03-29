@@ -603,7 +603,7 @@ class StaffAreaTest(OpenAssessmentTest):
         # Click on staff tools and search for user
         self.staff_area_page.show_learner('no-submission-learner')
         self.staff_area_page.verify_learner_report_text('A response was not found for this learner.')
-    
+
     @retry()
     @attr('acceptance')
     @ddt.data(True, False)
