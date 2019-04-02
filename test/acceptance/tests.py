@@ -617,7 +617,7 @@ class StaffAreaTest(OpenAssessmentTest):
 
         with patch('lms.djangoapps.grades.util_services.are_grades_frozen') as mock_freeze:
             mock_freeze.return_value = grade_are_frozen
-            staff_override_available = not grade_are_frozen
+            staff_override_available = grade_are_frozen
             self.assertEquals(
                 self.staff_area_page.assert_staff_override_available(),
                 staff_override_available
